@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+{% block title %}Birinchi proyekt {% endblock%}
+{% block content %}
+    <h1>Birinchi proyekt</h1>
+    {% for post in posts %}
+        <a href="{{ post.get_absalute_url}}">
+            <img  style="width: 500px;"  src="{{ post.image.url }}" alt="">
+        </a>
+        <h2>
+            <a href="{{ post.get_absalute_url}}">
+                {{ post.title }}
+            </a>
+        </h2>
+        <p class="tags">
+            {% for tag in post.tags.all%}
+            <a href="{% url 'blog:post_list_by_tag' tag.slug %}">
+            #{{ tag.name }}
+            </a>
+            {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+        {% if tag %}
+            <h2>Posts tagget with "{{tag.name }}"</h2>
+        {% endif %}
+
+        
+        <p class="date">
+            Published  {{ post.publish }} by {{ post.author }}
+        </p>
+        {{ post.body|truncatewords:20|linebreaks }}
+
+    {% endfor%}
+    {% include "pagination.html" with page=posts %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
